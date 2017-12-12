@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block head_title %} {{user.username}} | {{ block.super }} {% endblock head_title %}
+{% block content %}
+<h2>{{user.username}}</h2>
+<p>{% include "profiles/snippet/follow_form.html" with username=user.username is_following=is_following %}</p>
+<form class="form" method="GET" action=".">
+<input type="text" placeholder="Search" name="q" value="{{request.GET.q}}">
+<button class="btn btn-default" type="submit">Search</button>
+</form>
+<hr/>
+{% if locations %}
+{% for rest in locations %}
+<div class="row">
+        {% comment %} style="border: 2px solid #ccc; 
+        border-radius: 10px; padding: 10px; margin-bottom: 15px"> {% endcomment %}
+<div class="cl-sm-12"> <h4>{{rest.title}} </h4> 
+<p>
+    <a href="{{request.path}}?q={{rest.location}}">{{rest.location}}</a> | 
+    <a href="{{request.path}}?q={{rest.category }}">{{rest.category}}</a>
+</p>
+    <div class="thumbnail">        
+    <p>
+        <b>Items</b> 
+    <ul>
+    {% for item in rest.item_set.all %}
+    <li style="margin-bottom: 15px"><b>{{item.name}}</b> <br/>
+        Contains: {{item.contents}}
+            {% for ing in item.get_contents %}
+            <a href="{{request.path}}?q={{ing}}">{{ing}}</a>
+            {% endfor %}
+            {% for ing in item.get_contents %}
+                <span class='badge badge-default'>{{ing}}</span>
+            {% endfor %}
+
+            {% for ing in item.get_contents %}
+            <span style="padding:2px 10px; margin-right:4px; background-color:gray">{{ing}}</span>
+            {% endfor %}
+    </li>
+    {% endfor %}
+    </ul>   
+    </p>
+    <hr/>
+    </div>
+</div>
+</div>
+{% endfor %}
+{% else %}
+<p class='lead'> No items found </p>
+{% endif %}
+{% endblock content %}
