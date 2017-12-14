@@ -61,8 +61,8 @@ def post_save_user_receiver(sender, instance, created, *args, **kwargs):
         profile, is_created = Profile.objects.get_or_create(user=instance)
         default_user_profile = Profile.objects.get_or_create(user__id=1)[0]
         default_user_profile.followers.add(instance)
-        profile.followers.add(default_user_profile.user)
-        profile.followers.add(3)
+        # profile.followers.add(default_user_profile.user)
+        # profile.followers.add(3)
         
         #default_user_profile.save() - we don't need to do this in ManyToManyField 
 post_save.connect(post_save_user_receiver, sender=User)

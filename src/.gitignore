@@ -2,6 +2,7 @@
 
 db.sqlite3
 muypicky/settings/local.py
+muypicky/settings/local2.py
 .directory
 .DS_Store
 bin/
